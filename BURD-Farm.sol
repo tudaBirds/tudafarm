@@ -1113,6 +1113,13 @@ contract Geyser is IStaking, Ownable {
         return 0;
     }
 
+    function getUserLastStakeTime(address account) public view returns (uint256, uint256) {
+        Stake[] memory accountStakes = _userStakes[account];
+        if(accountStakes.length > 0)
+            return (accountStakes[accountStakes.length - 1].timestampSec, block.timestamp);
+        return (0, block.timestamp);
+    }
+
     function updateTaxFee(uint256 taxFee) external onlyOwner {
         _taxFee = taxFee;
     }
